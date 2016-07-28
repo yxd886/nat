@@ -1,0 +1,29 @@
+WrapSix
+=======
+
+About
+-----
+WrapSix is a fast NAT64 implementation. You also need a DNS64 server (e.g. BIND).
+
+Installation
+------------
+For installation use standard ./configure && make && make install commands.
+
+Configuration
+-------------
+WrapSix uses configuration file wrapsix.conf from configuration directory set in
+"./configure" phase, which is by default /usr/local/etc. You can also specify
+custom configuration file in runtime -- just pass its path as an argument:
+
+# wrapsix ./wrapsix.conf
+
+Running
+-------
+It can be run by `wrapsix` command as root.
+
+Contact
+-------
+Author:   xHire
+E-mail:   xhire -at- wrapsix.org
+IRC:      channel #wrapsix on chat.freenode.net
+Homepage: http://www.wrapsix.org/
