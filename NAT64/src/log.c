@@ -20,6 +20,7 @@
 #include <stdio.h>
 
 #include "log.h"
+#define DEBUG 0
 
 /**
  * Logs debugging stuff to stdout, but only when compiled with debug enabled.

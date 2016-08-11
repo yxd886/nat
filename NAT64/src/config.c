@@ -22,7 +22,6 @@
 #include <stdio.h>	/* FILE, fopen, getc, feof, fclose, perror */
 #include <stdlib.h>	/* exit */
 #include <string.h>	/* strcmp, strncpy */
-
 #include "config.h"
 #include "ipv4.h"
 #include "ipv6.h"
@@ -262,6 +261,7 @@ int cfg_host_ips(char *cinterface, struct s_ipv6_addr *ipv6_addr,
 					    ip_text, sizeof(ip_text), NULL, 0,
 					    NI_NUMERICHOST);
 				inet_pton(AF_INET6, ip_text, ipv6_addr);
+				printf("ipv6: %s\n",ip_text);
 			} else if (ifa->ifa_addr->sa_family == AF_INET &&
 				   !(found & 0x0a)) {
 				found |= 0x08;

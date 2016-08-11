@@ -45,7 +45,13 @@ wrapper.o: wrapper.c /usr/include/stdc-predef.h /usr/include/arpa/inet.h \
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h /usr/include/alloca.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
- /usr/include/x86_64-linux-gnu/bits/stdlib.h /usr/include/string.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib.h /usr/include/stdio.h \
+ /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/string.h \
  /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/string.h \
  /usr/include/x86_64-linux-gnu/bits/string2.h \
  /usr/include/x86_64-linux-gnu/bits/string3.h \
@@ -60,9 +66,10 @@ wrapper.o: wrapper.c /usr/include/stdc-predef.h /usr/include/arpa/inet.h \
  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
  /usr/include/x86_64-linux-gnu/bits/environments.h \
  /usr/include/x86_64-linux-gnu/bits/confname.h /usr/include/getopt.h \
- /usr/include/x86_64-linux-gnu/bits/unistd.h arp.h ipv4.h ethernet.h \
- ipv6.h autoconfig.h config.h log.h nat.h linkedlist.h radixtree.h \
- transmitter.h wrapper.h
+ /usr/include/x86_64-linux-gnu/bits/unistd.h /usr/include/netinet/ip.h \
+ /usr/include/netinet/tcp.h /usr/include/netinet/udp.h arp.h ipv4.h \
+ ethernet.h ipv6.h autoconfig.h config.h log.h nat.h linkedlist.h \
+ radixtree.h transmitter.h wrapper.h
 
 /usr/include/stdc-predef.h:
 
@@ -190,6 +197,24 @@ wrapper.o: wrapper.c /usr/include/stdc-predef.h /usr/include/arpa/inet.h \
 
 /usr/include/x86_64-linux-gnu/bits/stdlib.h:
 
+/usr/include/stdio.h:
+
+/usr/include/libio.h:
+
+/usr/include/_G_config.h:
+
+/usr/include/wchar.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
+
+/usr/include/x86_64-linux-gnu/bits/sys_errlist.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:
+
 /usr/include/string.h:
 
 /usr/include/xlocale.h:
@@ -229,6 +254,12 @@ wrapper.o: wrapper.c /usr/include/stdc-predef.h /usr/include/arpa/inet.h \
 /usr/include/getopt.h:
 
 /usr/include/x86_64-linux-gnu/bits/unistd.h:
+
+/usr/include/netinet/ip.h:
+
+/usr/include/netinet/tcp.h:
+
+/usr/include/netinet/udp.h:
 
 arp.h:
 

@@ -24,12 +24,17 @@
 #include <net/if.h>		/* struct ifreq */
 #include <netinet/in.h>		/* htons */
 #include <netpacket/packet.h>	/* struct packet_mreq, struct sockaddr_ll */
-#include <stdlib.h>		/* srand */
+#include <stdlib.h>	
+#include <stdio.h>	/* srand */
 #include <string.h>		/* strncpy */
 #include <sys/ioctl.h>		/* ioctl, SIOCGIFINDEX */
 #include <time.h>		/* time, time_t */
 #include <unistd.h>		/* close */
-
+#include <netinet/ip.h>
+#include <netinet/tcp.h>
+#include <netinet/udp.h>
+#include <netinet/in.h>
+#include <net/ethernet.h>
 #include "arp.h"
 #ifdef HAVE_CONFIG_H
 #include "autoconfig.h"
@@ -42,7 +47,6 @@
 #include "nat.h"
 #include "transmitter.h"
 #include "wrapper.h"
-
 unsigned short mtu;
 
 struct ifreq		interface;
@@ -101,26 +105,26 @@ int main(int argc, char **argv)
 	getchar();
 	
 	/* initialize the socket for sniffing */
-	if ((sniff_sock = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL))) ==
+/*	if ((sniff_sock = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL))) ==
 	    -1) {
 		log_error("Unable to create listening socket");
 		return 1;
 	}
 
 	/* get the interface */
-	strncpy(interface.ifr_name, cfg.interface, IFNAMSIZ);
+/*	strncpy(interface.ifr_name, cfg.interface, IFNAMSIZ);
 	if (ioctl(sniff_sock, SIOCGIFINDEX, &interface) == -1) {
 		log_error("Unable to get the interface %s", cfg.interface);
 		return 1;
 	}
 
 	/* get interface's HW address (i.e. MAC) */
-	if (ioctl(sniff_sock, SIOCGIFHWADDR, &interface) == 0) {
+/*	if (ioctl(sniff_sock, SIOCGIFHWADDR, &interface) == 0) {
 		memcpy(&mac, &interface.ifr_hwaddr.sa_data,
 		       sizeof(struct s_mac_addr));
 
 		/* disable generic segmentation offload */
-		ethtool.cmd = ETHTOOL_SGSO;
+/*		ethtool.cmd = ETHTOOL_SGSO;
 		ethtool.data = 0;
 		interface.ifr_data = (caddr_t) &ethtool;
 		if (ioctl(sniff_sock, SIOCETHTOOL, &interface) == -1) {
@@ -130,7 +134,7 @@ int main(int argc, char **argv)
 		}
 
 		/* reinitialize the interface */
-		interface.ifr_data = NULL;
+/*		interface.ifr_data = NULL;
 		if (ioctl(sniff_sock, SIOCGIFINDEX, &interface) == -1) {
 			log_error("Unable to reinitialize the interface");
 			return 1;
@@ -141,7 +145,7 @@ int main(int argc, char **argv)
 	}
 
 	/* set the promiscuous mode */
-	memset(&pmr, 0x0, sizeof(pmr));
+/*	memset(&pmr, 0x0, sizeof(pmr));
 	pmr.mr_ifindex = interface.ifr_ifindex;
 	pmr.mr_type = PACKET_MR_PROMISC;
 	if (setsockopt(sniff_sock, SOL_PACKET, PACKET_ADD_MEMBERSHIP,
@@ -162,7 +166,7 @@ int main(int argc, char **argv)
 	inet_pton(AF_INET, cfg.ipv4_address, &wrapsix_ipv4_addr);
 
 	/* initiate sending socket */
-	if (transmission_init()) {
+	/*if (transmission_init()) {
 		log_error("Unable to initiate sending socket");
 		return 1;
 	}
@@ -177,46 +181,57 @@ int main(int argc, char **argv)
 	prevtime = time(NULL);
 
 	/* sniff! :c) */
-	for (i = 1;; i++) {
-		if ((length = recv(sniff_sock, buffer, PACKET_BUFFER, 0)) ==
-		    -1) {
-			log_error("Unable to retrieve data from socket");
-			return 1;
-		}
 
-		process((char *) &buffer);
+struct ether_header *m_pEthhdr;
+struct iphdr *m_pIphdr;
+char tmp1[2000];
+char *head=tmp1;
+char *packet=tmp1+34;
+uint16_t len;
+FILE* f;
+  if( (f=fopen("code.txt","r"))==NULL)
+	  {
+	  printf("OPen File failure\n");
+	  }
+while (!feof(f))
+   {
+	   fread(head,34,1,f);
+	   m_pEthhdr=(struct ether_header *)head;
+	   m_pIphdr=(struct iphdr *)(head+sizeof(struct ether_header));
+	   len = ntohs(m_pIphdr->tot_len);
+	   //cout<<"len:"<<len<<endl;
+	   fread(packet,len-20,1,f);
+	   process(head);
 
-		if (i % 250000) {
-			curtime = time(NULL);
-			/* 2 seconds is minimum normal timeout */
-			if ((curtime - prevtime) >= 2) {
-				nat_cleaning();
-				prevtime = curtime;
-			}
-			i = 0;
-		}
-	}
+  }
+
+
+
+
+
+
+	
 
 	/* clean-up */
 	/* close sending socket */
-	transmission_quit();
+//	transmission_quit();
 
 	/* empty NAT tables */
 	nat_quit();
 
 	/* unset the promiscuous mode */
-	if (setsockopt(sniff_sock, SOL_PACKET, PACKET_DROP_MEMBERSHIP,
+/*	if (setsockopt(sniff_sock, SOL_PACKET, PACKET_DROP_MEMBERSHIP,
 	    (char *) &pmr, sizeof(pmr)) == -1) {
 		log_error("Unable to unset the promiscuous mode on the "
 			  "interface");
 		/* do not call return here as we want to close the socket too */
-	}
+/*	}
 
 	/* close the socket */
-	close(sniff_sock);
+/*	close(sniff_sock); */
 
 	return 0;
-}
+} 
 
 int process(char *packet)
 {

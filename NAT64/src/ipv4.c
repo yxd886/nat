@@ -65,20 +65,24 @@ int ipv4(struct s_ethernet *eth, char *packet)
 			icmp4_error(ip->ip_src, ICMPV4_TIME_EXCEEDED, 0,
 				    (unsigned char *) packet, htons(ip->len));
 		}
+		printf("ttl<1\n");
 		return 1;
 	} else {
 		ip->ttl--;
 	}
-
+	printf("enter switch\n");
 	switch (ip->proto) {
 		case IPPROTO_TCP:
 			log_debug("IPv4 Protocol: TCP");
+			printf("IPv4 Protocol: TCP\n");
 			return tcp_ipv4(eth, ip, payload, data_size);
 		case IPPROTO_UDP:
 			log_debug("IPv4 Protocol: UDP");
+			printf("IPv4 Protocol: UDP\n");
 			return udp_ipv4(eth, ip, payload, data_size);
 		case IPPROTO_ICMP:
 			log_debug("IPv4 Protocol: ICMP");
+			printf("IPv4 Protocol: ICMP\n");
 			return icmp_ipv4(eth, ip, payload, data_size);
 		default:
 			log_debug("IPv4 Protocol: unknown [%d/0x%x]",
